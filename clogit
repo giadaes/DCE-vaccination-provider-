@@ -1,0 +1,476 @@
+
+use estrazione
+keep if cani_gatti==1
+drop g_blocco1 g_blocco2 g_blocco3 g_blocco4 g_blocco5 g_blocco6
+
+
+/*da wide a long format*/ 
+reshape long c_blocco, i(ID) j(choiceset)
+rename c_blocco alternativa
+rename cani_gatti blocco
+
+
+
+
+drop _merge
+order id alternativa choiceset blocco
+
+save risultati, replace
+
+
+expand 2 if alternativa==1 , generate(newv_1)
+
+expand 2 if alternativa==2, generate(newv_2)
+
+sort id choiceset alternativa
+
+egen alternative= seq(), f(1) t(2)
+
+rename alternativa chosen_alt
+
+order id choiceset alternative chosen_alt
+
+save reshaped, replace
+
+
+drop newv_1 new2
+
+
+
+/*cani*/
+
+gen distanza=0 if choiceset==1 & alternativa==1 
+gen parcheggio=2 if choiceset==1 & alternativa==1
+gen accessibilità=1 if choiceset==1 & alternativa==1
+gen modalità_prenotazione=1 if choiceset==1 & alternativa==1
+gen attesa=0 if choiceset==1 & alternativa==1
+gen orario=2 if choiceset==1 & alternativa==1
+gen familiarità=1 if choiceset==1 & alternativa==1
+
+
+/*genero attributi alternativa 2 blocco 1*/
+
+replace distanza=1 if choiceset==1 & alternativa==2
+replace parcheggio=0 if choiceset==1 & alternativa==2
+replace accessibilità=0 if choiceset==1 & alternativa==2
+replace modalità_prenotazione=0 if choiceset==1 & alternativa==2
+replace attesa=0 if choiceset==1 & alternativa==2
+replace orario=1 if choiceset==1 & alternativa==2
+replace familiarità=1 if choiceset==1 & alternativa==2
+
+
+/*BLOCCO2*/
+
+/*genero attributi alternativa 1 */
+
+replace distanza=1 if choiceset==2 & alternativa==1
+replace parcheggio=2 if choiceset==2 & alternativa==1 
+replace accessibilità=1 if choiceset==2 & alternativa==1 
+replace modalità_prenotazione=0 if choiceset==2 & alternativa==1 
+replace attesa=2 if choiceset==2 & alternativa==1 
+replace orario=1 if choiceset==2 & alternativa==1 
+replace familiarità=1 if choiceset==2 & alternativa==1 
+
+
+/*genero attributi alternativa 2 */
+
+replace distanza=2 if choiceset==2 & alternativa==2 
+replace parcheggio=1 if choiceset==2 & alternativa==2 
+replace accessibilità=0 if choiceset==2 & alternativa==2 
+replace modalità_prenotazione=1 if choiceset==2 & alternativa==2 
+replace attesa=0 if choiceset==2 & alternativa==2 
+replace orario=0 if choiceset==2 & alternativa==2 
+replace familiarità=0 if choiceset==2 & alternativa==2 
+
+
+/*BLOCCO3*/
+
+/*genero attributi alternativa 1 */
+
+replace distanza=0 if choiceset==3 & alternativa==1 
+replace parcheggio=0 if choiceset==3 & alternativa==1 
+replace accessibilità=1 if choiceset==3 & alternativa==1 
+replace modalità_prenotazione=2 if choiceset==3 & alternativa==1 
+replace attesa=2 if choiceset==3 & alternativa==1 
+replace orario=0 if choiceset==3 & alternativa==1 
+replace familiarità=1 if choiceset==3 & alternativa==1 
+
+
+/*genero attributi alternativa 2 */
+
+replace distanza=2 if choiceset==3 & alternativa==2 
+replace parcheggio=2 if choiceset==3 & alternativa==2 
+replace accessibilità=0 if choiceset==3 & alternativa==2 
+replace modalità_prenotazione=1 if choiceset==3 & alternativa==2 
+replace attesa=0 if choiceset==3 & alternativa==2 
+replace orario=1 if choiceset==3 & alternativa==2 
+replace familiarità=0 if choiceset==3 & alternativa==2 
+
+
+
+/*BLOCCO4*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=2 if choiceset==4 & alternativa==1 
+replace parcheggio=0 if choiceset==4 & alternativa==1
+replace accessibilità=1 if choiceset==4 & alternativa==1
+replace modalità_prenotazione=2 if choiceset==4 & alternativa==1
+replace attesa=1 if choiceset==4 & alternativa==1
+replace orario=1 if choiceset==4 & alternativa==1
+replace familiarità=0 if choiceset==4 & alternativa==1
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=0 if choiceset==4 & alternativa==2
+replace parcheggio=2 if choiceset==4 & alternativa==2
+replace accessibilità=0 if choiceset==4 & alternativa==2
+replace modalità_prenotazione=1 if choiceset==4 & alternativa==2
+replace attesa=0 if choiceset==4 & alternativa==2
+replace orario=0 if choiceset==4 & alternativa==2
+replace familiarità=1 if choiceset==4 & alternativa==2
+
+
+/*BLOCCO5*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=2 if choiceset==5 & alternativa==1
+replace parcheggio=1 if choiceset==5 & alternativa==1
+replace accessibilità=1 if choiceset==5 & alternativa==1
+replace modalità_prenotazione=0 if choiceset==5 & alternativa==1
+replace attesa=1 if choiceset==5 & alternativa==1
+replace orario=0 if choiceset==5 & alternativa==1
+replace familiarità=1 if choiceset==5 & alternativa==1
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=1 if choiceset==5 & alternativa==2 
+replace parcheggio=0 if choiceset==5 & alternativa==2
+replace accessibilità=0 if choiceset==5 & alternativa==2
+replace modalità_prenotazione=2 if choiceset==5 & alternativa==2
+replace attesa=0 if choiceset==5 & alternativa==2
+replace orario=2 if choiceset==5 & alternativa==2
+replace familiarità=0 if choiceset==5 & alternativa==2
+
+/*BLOCCO6*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=0 if choiceset==6 & alternativa==1
+replace parcheggio=2 if choiceset==6 & alternativa==1
+replace accessibilità=1 if choiceset==6 & alternativa==1
+replace modalità_prenotazione=2 if choiceset==6 & alternativa==1
+replace attesa=2 if choiceset==6 & alternativa==1
+replace orario=0 if choiceset==6 & alternativa==1
+replace familiarità=0 if choiceset==6 & alternativa==1
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=2 if choiceset==6 & alternativa==2
+replace parcheggio=0 if choiceset==6 & alternativa==2
+replace accessibilità=1 if choiceset==6 & alternativa==2
+replace modalità_prenotazione=1 if choiceset==6 & alternativa==2
+replace attesa=0 if choiceset==6 & alternativa==2
+replace orario=2 if choiceset==6 & alternativa==2
+replace familiarità=1 if choiceset==6 & alternativa==2
+
+
+
+/*gatti*/
+
+
+
+use estrazione
+keep if cani_gatti==2
+drop c_blocco1 c_blocco2 c_blocco3 c_blocco4 c_blocco6 c_blocco5
+merge n:1 ID using ID
+
+/*da wide a long format*/ 
+reshape long g_blocco, i(id) j(choiceset)
+rename g_blocco alternativa
+rename cani_gatti blocco
+
+
+
+
+drop _merge
+order id alternativa choiceset blocco
+save risultati, replace
+expand 2 if alternativa==1 , generate(newv_1)
+
+expand 2 if alternativa==2, generate(newv_2)
+
+sort id choiceset alternativa
+
+egen alternative= seq(), f(1) t(2)
+
+rename alternativa chosen_alt
+
+order id choiceset alternative chosen_alt
+
+save reshaped, replace
+
+
+drop newv_1 new2
+
+
+
+
+gen distanza=2 if choiceset==1 & alternativa==1 & blocco==2
+gen parcheggio=2 if choiceset==1 & alternativa==1 & blocco==2
+gen accessibilità=1 if choiceset==1 & alternativa==1 & blocco==2
+gen modalità_prenotazione=2 if choiceset==1 & alternativa==1 & blocco==2
+gen attesa=0 if choiceset==1 & alternativa==1 & blocco==2
+gen orario=0 if choiceset==1 & alternativa==1 & blocco==2
+gen familiarità=0 if choiceset==1 & alternativa==1 & blocco==2
+
+
+/*genero attributi alternativa 2 blocco 1*/
+
+replace distanza=1 if choiceset==1 & alternativa==2 & blocco==2
+replace parcheggio=0 if choiceset==1 & alternativa==2 & blocco==2
+replace accessibilità=0 if choiceset==1 & alternativa==2 & blocco==2
+replace modalità_prenotazione=1 if choiceset==1 & alternativa==2 & blocco==2
+replace attesa=0 if choiceset==1 & alternativa==2 & blocco==2
+replace orario=1 if choiceset==1 & alternativa==2 & blocco==2
+replace familiarità=1 if choiceset==1 & alternativa==2 & blocco==2
+
+
+/*BLOCCO2*/
+
+/*genero attributi alternativa 1 */
+
+replace distanza=1 if choiceset==2 & alternativa==1 & blocco==2
+replace parcheggio=2 if choiceset==2 & alternativa==1 & blocco==2
+replace accessibilità=1 if choiceset==2 & alternativa==1 & blocco==2
+replace modalità_prenotazione=1 if choiceset==2 & alternativa==1 & blocco==2
+replace attesa=0 if choiceset==2 & alternativa==1 & blocco==2
+replace orario=0 if choiceset==2 & alternativa==1 & blocco==2
+replace familiarità=0 if choiceset==2 & alternativa==1 & blocco==2
+
+
+
+
+
+/*genero attributi alternativa 2 */
+
+replace distanza=0 if choiceset==2 & alternativa==2 & blocco==2
+replace parcheggio=2 if choiceset==2 & alternativa==2 & blocco==2 
+replace accessibilità=0 if choiceset==2 & alternativa==2 & blocco==2
+replace modalità_prenotazione=2 if choiceset==2 & alternativa==2 & blocco==2
+replace attesa=1 if choiceset==2 & alternativa==2 & blocco==2
+replace orario=2 if choiceset==2 & alternativa==2 & blocco==2
+replace familiarità=1 if choiceset==2 & alternativa==2 & blocco==2
+
+
+/*BLOCCO3*/
+
+/*genero attributi alternativa 1 */
+
+replace distanza=1 if choiceset==3 & alternativa==1 & blocco==2
+replace parcheggio=1 if choiceset==3 & alternativa==1 & blocco==2
+replace accessibilità=1 if choiceset==3 & alternativa==1 & blocco==2
+replace modalità_prenotazione=2 if choiceset==3 & alternativa==1 & blocco==2
+replace attesa=2 if choiceset==3 & alternativa==1 & blocco==2
+replace orario=2 if choiceset==3 & alternativa==1 & blocco==2
+replace familiarità=0 if choiceset==3 & alternativa==1 & blocco==2
+
+
+/*genero attributi alternativa 2 */
+
+replace distanza=2 if choiceset==3 & alternativa==2 & blocco==2
+replace parcheggio=0 if choiceset==3 & alternativa==2 & blocco==2
+replace accessibilità=0 if choiceset==3 & alternativa==2 & blocco==2
+replace modalità_prenotazione=0 if choiceset==3 & alternativa==2 & blocco==2
+replace attesa=2 if choiceset==3 & alternativa==2 & blocco==2
+replace orario=1 if choiceset==3 & alternativa==2 & blocco==2
+replace familiarità=0 if choiceset==3 & alternativa==2 & blocco==2
+
+
+
+/*BLOCCO4*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=0 if choiceset==4 & alternativa==1 & blocco==2
+replace parcheggio=0 if choiceset==4 & alternativa==1 & blocco==2
+replace accessibilità=1 if choiceset==4 & alternativa==1 & blocco==2
+replace modalità_prenotazione=0 if choiceset==4 & alternativa==1 & blocco==2
+replace attesa=1 if choiceset==4 & alternativa==1 & blocco==2
+replace orario=0 if choiceset==4 & alternativa==1 & blocco==2
+replace familiarità=0 if choiceset==4 & alternativa==1 & blocco==2
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=2 if choiceset==4 & alternativa==2 & blocco==2
+replace parcheggio=1 if choiceset==4 & alternativa==2 & blocco==2
+replace accessibilità=0 if choiceset==4 & alternativa==2 & blocco==2
+replace modalità_prenotazione=2 if choiceset==4 & alternativa==2 & blocco==2
+replace attesa=0 if choiceset==4 & alternativa==2 & blocco==2
+replace orario=0 if choiceset==4 & alternativa==2 & blocco==2
+replace familiarità=1 if choiceset==4 & alternativa==2 & blocco==2
+
+
+/*BLOCCO5*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=2 if choiceset==5 & alternativa==1 & blocco==2
+replace parcheggio=2 if choiceset==5 & alternativa==1 & blocco==2
+replace accessibilità=0 if choiceset==5 & alternativa==1 & blocco==2
+replace modalità_prenotazione=2 if choiceset==5 & alternativa==1 & blocco==2
+replace attesa=2 if choiceset==5 & alternativa==1 & blocco==2
+replace orario=0 if choiceset==5 & alternativa==1 & blocco==2
+replace familiarità=1 if choiceset==5 & alternativa==1 & blocco==2
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=0 if choiceset==5 & alternativa==2 & blocco==2
+replace parcheggio=1 if choiceset==5 & alternativa==2 & blocco==2
+replace accessibilità=1 if choiceset==5 & alternativa==2 & blocco==2
+replace modalità_prenotazione=0 if choiceset==5 & alternativa==2 & blocco==2
+replace attesa=0 if choiceset==5 & alternativa==2 & blocco==2
+replace orario=2 if choiceset==5 & alternativa==2 & blocco==2
+replace familiarità=0 if choiceset==5 & alternativa==2 & blocco==2
+
+/*BLOCCO6*/
+
+/*genero attributi alternativa 1*/
+
+replace distanza=2 if choiceset==6 & alternativa==1 & blocco==2
+replace parcheggio=1 if choiceset==6 & alternativa==1 & blocco==2
+replace accessibilità=0 if choiceset==6 & alternativa==1 & blocco==2
+replace modalità_prenotazione=0 if choiceset==6 & alternativa==1 & blocco==2
+replace attesa=2 if choiceset==6 & alternativa==1 & blocco==2
+replace orario=2 if choiceset==6 & alternativa==1 & blocco==2
+replace familiarità=0 if choiceset==6 & alternativa==1 & blocco==2
+
+
+/*genero attributi alternativa 2*/
+
+replace distanza=0 if choiceset==6 & alternativa==2 & blocco==2
+replace parcheggio=0 if choiceset==6 & alternativa==2 & blocco==2
+replace accessibilità=1 if choiceset==6 & alternativa==2 & blocco==2
+replace modalità_prenotazione=1 if choiceset==6 & alternativa==2 & blocco==2
+replace attesa=0 if choiceset==6 & alternativa==2 & blocco==2
+replace orario=1 if choiceset==6 & alternativa==2 & blocco==2
+replace familiarità=1 if choiceset==6 & alternativa==2 & blocco==2
+
+
+
+
+
+/*GENERO choice*/
+
+gen alt1=1 if alternativa==1 & chosen_alt==1
+replace alt1=1 if alternativa==2 & chosen_alt==2
+replace alt1=0 if alternativa==1 & chosen_alt==2
+replace alt1=0 if alternativa==2 & chosen_alt==1
+
+
+/*genero dummy distanza*/
+
+
+gen distanza_0=1 if distanza==0 
+gen distanza_short=0 if distanza==0
+gen distanza_long=0 if distanza==0 
+replace distanza_0=0 if distanza==1 
+replace distanza_short=1 if distanza==1
+replace distanza_long=0 if distanza==1 
+replace distanza_0=0 if distanza==2 
+replace distanza_short=0 if distanza==2
+replace distanza_long=1 if distanza==2 
+
+
+/*genero dummy parcheggio */
+
+
+gen parking_free=1 if parcheggio==0 
+gen parking_pay=0 if parcheggio==0
+gen parking_not=0 if parcheggio==0 
+replace parking_free=0 if parcheggio==1  
+replace parking_pay=1 if parcheggio==1
+replace parking_not=0 if parcheggio==1 
+replace parking_free=0 if parcheggio==2 
+replace parking_pay=0 if parcheggio==2
+replace parking_not=1 if parcheggio==2
+
+
+/*genero dummy accessibilità*/
+
+gen access_yes=1 if accessibilità==0 
+gen access_no=0 if accessibilità==0
+replace access_yes=0 if accessibilità==1 
+replace access_no=1 if accessibilità==1
+
+/*genero dummy prenotazione*/
+
+gen booking_phone=1 if modalità_prenotazione==0
+gen booking_not=0 if modalità_prenotazione==0
+gen booking_online=0 if modalità_prenotazione==0
+
+replace booking_phone=0 if modalità_prenotazione==1
+replace booking_not=1 if modalità_prenotazione==1
+replace booking_online=0 if modalità_prenotazione==1
+
+replace booking_phone=0 if modalità_prenotazione==2
+replace booking_not=0 if modalità_prenotazione==2
+replace booking_online=1 if modalità_prenotazione==2
+
+
+/*genero dummy attesa*/
+
+gen waiting_not=1 if attesa==0
+gen waiting_short=0 if attesa==0
+gen waiting_long=0 if attesa==0
+
+replace waiting_not=0 if attesa==1
+replace waiting_short=1 if attesa==1
+replace waiting_long=1 if attesa==1
+
+
+replace waiting_not=0 if attesa==2
+replace waiting_short=0 if attesa==2
+replace waiting_long=1 if attesa==2
+
+
+/*genero dummy orario*/
+
+gen opening_daily=1 if orario==0
+gen opening_evening=0 if orario==0
+gen opening_we=0 if orario==0
+
+replace opening_daily=0 if orario==1
+replace opening_evening=1 if orario==1
+replace opening_we=0 if orario==1
+
+replace opening_daily=0 if orario==2
+replace opening_evening=0 if orario==2
+replace opening_we=1 if orario==2
+
+
+/* genero dummy familiarità*/
+
+gen fam_yes=0 if familiarità==0 
+gen fam_no=1 if familiarità==0 
+
+
+replace fam_yes=1 if familiarità==1
+replace fam_no=0 if familiarità==1
+
+gen obsid= int((_n-1)/2) +1
+
+gen const=0 if alternativa==1
+replace const=1 if alternativa==2
+
+
+order id obsid alternativa choiceset blocco distanza_0 distanza_short distanza_long parking_free parking_pay parking_not access_yes access_no booking_phone booking_not booking_online waiting_not waiting_short waiting_long opening_daily opening_evening opening_we fam_yes fam_no const choice sesso età CAP titolo_di_studio professione stato_salute
+
+clogit choice distanza_short distanza_long parking_free parking_pay access_yes booking_phone booking_online waiting_short waiting_long opening_daily opening_evening fam_yes const, group(obsid)
+

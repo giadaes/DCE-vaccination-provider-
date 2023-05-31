@@ -1,0 +1,48 @@
+clear
+
+*genero la matrice attributi e livelli*
+matrix levmat= 3,3,2,3,3,3,2
+genfact, levels(levmat)
+
+*visualizzare la matrice*
+list, separator(10)
+
+*genero la matrice di priors*
+*non ho priors quindi matrice di zeri*
+* main effects 14 *
+matrix b=J(1,12,0)
+
+*rinomino i parametri*
+ 
+rename x1 distance
+rename x2 parking
+rename x3 accessibility
+rename x4 booking
+rename x5 waiting
+rename x6 opening
+rename x7 familiarity
+
+
+*ricodifico partendo da 0*
+recode distance (1=0) (2=1) (3=2)
+recode parking (1=0) (2=1) (3=2)
+recode accessibility (1=0) (2=1) 
+recode booking (1=0) (2=1) (3=2)
+recode waiting (1=0) (2=1) (3=2)
+recode opening (1=0) (2=1) (3=2)
+recode familiarity (1=0) (2=1)
+
+
+
+*dcreate con due alternative il numero minimo di scelte 14* 
+
+dcreate i.distance i.parking i.accessibility i.booking i.waiting i.opening i.familiarity, nalt(2) nset(12) bmat(b)
+
+ 
+
+*blocking*
+blockdes block, nblock(2) 
+
+*valutare l'efficienza*
+
+evaldes i.distance i.parking i.accessibility i.booking i.waiting  i.opening i.familiarity, bmat(b) 
